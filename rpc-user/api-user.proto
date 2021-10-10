@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package apiuser;
+
+option go_package = "apiuser";
+
+message response {
+  //  状态码
+  int32 code = 1;
+  string message = 2;
+}
+
+message registerReq {
+  string phone = 1;
+  string password = 2;
+  //  验证码
+  string code = 3;
+}
+
+message loginReq {
+  string phone = 1;
+  string password = 2;
+  //  验证码
+  string code = 3;
+}
+
+message loginRes {
+  uint64 id = 1;
+  string token = 2;
+  response response = 3;
+}
+
+message getUserReq {
+  uint64 id = 1;
+}
+
+message getUserRes {
+  response response = 1;
+  user user = 2;
+}
+
+message user {
+  uint64 id = 1;
+  string username = 2;
+  string avatar = 3;
+  // 0: 男，1:女
+  int32 sex = 4;
+  string phone = 5;
+  string email = 6;
+  string address = 7;
+  string hobby = 8;
+}
+
+message updateUserReq {
+  user user = 1;
+}
+
+message nullRes {}
+
+message updateUserRes {
+  response response = 1;
+  user user = 2;
+}
+
+service ApiUser {
+  //  注册接口
+  rpc register(registerReq) returns(nullRes);
+  //  登录接口
+  rpc login(loginReq) returns(loginRes);
+  //  获取用户信息
+  rpc getUser(getUserReq) returns(getUserRes);
+  //  更新用户信息
+  rpc updateUser(updateUserReq) returns(updateUserRes);
+}

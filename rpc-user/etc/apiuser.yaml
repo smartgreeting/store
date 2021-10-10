@@ -1,0 +1,17 @@
+Name: apiuser.rpc
+ListenOn: 127.0.0.1:8080
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: apiuser.rpc
+
+Mysql:
+  Dns: root:root@tcp(127.0.0.1:3306)/store?charset=utf8mb4&parseTime=True&loc=Local
+
+Redis:
+  Host: 127.0.0.1
+  Port: 6379
+  DB: 1
+
+UserAuth:
+  Md5: fq8t9qe89tcy1390ty
