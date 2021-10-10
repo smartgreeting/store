@@ -14,3 +14,7 @@ type User struct {
 	CreatedAt int
 	UpdatedAt int
 }
+
+func (m User) TableName() string {
+	return "user"
+}

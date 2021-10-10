@@ -2,11 +2,11 @@ package logic
 
 import (
 	"context"
+	"store/models"
 	"store/rpc-user/apiuser"
 	"store/rpc-user/internal/dao"
 	"store/rpc-user/internal/svc"
-	"store/rpc-user/utils"
-	"store/models"
+	"store/utils"
 
 	"github.com/tal-tech/go-zero/core/logx"
 )

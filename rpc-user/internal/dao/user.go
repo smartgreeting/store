@@ -23,3 +23,9 @@ func (d UserDao) Create(user *models.User) (*models.User, error) {
 	err := d.db.Create(user).Error
 	return user, err
 }
+
+func (d UserDao) FindByPhone(phone string) (*models.User, error) {
+	var user models.User
+	err := d.db.Where("phone = ?", phone).Find(&user).Error
+	return &user, err
+}
