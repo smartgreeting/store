@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 16:10:05
- * @LastEditTime: 2021-10-11 16:34:34
+ * @LastEditTime: 2021-10-11 18:00:01
  * @Email: 17719495105@163.com
  */
 package middleware
@@ -20,7 +20,7 @@ func JWT() gin.HandlerFunc {
 
 		var code int
 
-		code = utils.Success
+		code = utils.SUCCESS
 
 		Authorization := ctx.GetHeader("Authorization")
 
@@ -41,7 +41,7 @@ func JWT() gin.HandlerFunc {
 			}
 		}
 
-		if code != utils.Success {
+		if code != utils.SUCCESS {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code": utils.UNAUTHORIZED_ERROR,
 				"msg":  utils.Response(utils.UNAUTHORIZED_ERROR),
