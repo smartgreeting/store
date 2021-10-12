@@ -7,18 +7,17 @@
 package handler
 
 import (
-	"github.com/tal-tech/go-zero/zrpc"
 	"store/api/middleware"
 	"store/api/service"
 
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(client zrpc.Client) *gin.Engine {
+func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
 	// 实例化服务
-	userService := service.NewUserService(client)
+	userService := service.NewUserService()
 
 	v1Group := r.Group("v1")
 	v1Group.POST("/user/register", userService.Register)

@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/tal-tech/go-zero/zrpc"
 	"store/api/rpc"
 	"store/models/form"
 	"store/models/in"
@@ -10,13 +9,10 @@ import (
 )
 
 type UserService struct {
-	client zrpc.Client
 }
 
-func NewUserService(client zrpc.Client) *UserService {
-	return &UserService{
-		client,
-	}
+func NewUserService() *UserService {
+	return &UserService{}
 }
 
 func (s *UserService) Register(ctx *gin.Context) {
@@ -32,7 +28,7 @@ func (s *UserService) Register(ctx *gin.Context) {
 		return
 	}
 
-	_, err = rpc.NewUserRpc(s.client).Register(ctx, &in.UserRegisterReq{
+	_, err = rpc.NewUserRpc().Register(ctx, &in.UserRegisterReq{
 		Phone:    "123",
 		Password: "123",
 		Code:     "123",

@@ -3,7 +3,6 @@ package rpc
 import (
 	"context"
 	"fmt"
-	"github.com/tal-tech/go-zero/zrpc"
 	"store/models/in"
 	"store/rpc-user/apiuserclient"
 )
@@ -13,15 +12,14 @@ type UserRpcInterface interface {
 }
 
 type userRpc struct {
-	client zrpc.Client
 }
 
-func NewUserRpc(client zrpc.Client) UserRpcInterface {
-	return &userRpc{client}
+func NewUserRpc() UserRpcInterface {
+	return &userRpc{}
 }
 
 func (r *userRpc) Register(ctx context.Context, in *in.UserRegisterReq) (interface{}, error) {
-	apiUser := apiuserclient.NewApiUser(r.client)
+	apiUser := apiuserclient.NewApiUser(RpcClient)
 	res, err := apiUser.Register(ctx, &apiuserclient.RegisterReq{
 		Phone:    "",
 		Password: "",
