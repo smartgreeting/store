@@ -1,7 +1,7 @@
 create table `hc_user`(
     `id` int unsigned not null AUTO_INCREMENT,
     `username` varchar(32) not null default "" comment "用户名",
-    `password` varchar(32) not null comment "密码",
+    `password` varchar(128) not null comment "密码",
     `avatar` varchar(128) not null default "" comment "头像地址",
     `sex` tinyint(1) not null default 0 comment "性别：0.男 1.女",
     `phone` varchar(11) not null default "" comment "手机号",

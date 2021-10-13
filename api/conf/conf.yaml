@@ -5,3 +5,5 @@ application:
 token:
   secret: 123456
   expire_time: 24
+md5:
+  secret: 123456

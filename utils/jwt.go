@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 13:10:44
- * @LastEditTime: 2021-10-11 13:15:23
+ * @LastEditTime: 2021-10-13 09:40:15
  * @Email: 17719495105@163.com
  */
 package utils
@@ -19,7 +19,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(id int, username, password string, secret []byte, exp int) (string, error) {
+func GenerateToken(id int, username, secret_password string, secret []byte, exp int) (string, error) {
 
 	nowTime := time.Now()
 	expireTime := nowTime.Add(time.Duration(exp) * time.Hour)
@@ -27,7 +27,7 @@ func GenerateToken(id int, username, password string, secret []byte, exp int) (s
 	claims := Claims{
 		username,
 		id,
-		password,
+		secret_password,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "smartgreeting",

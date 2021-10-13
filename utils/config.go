@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 11:15:50
- * @LastEditTime: 2021-10-11 12:44:12
+ * @LastEditTime: 2021-10-13 09:35:29
  * @Email: 17719495105@163.com
  */
 package utils
@@ -16,11 +16,15 @@ import (
 type Conf struct {
 	Application Application
 	Token       Token
+	Md5         Md5
 }
 
 type Token struct {
 	Secret     string
 	ExpireTime int
+}
+type Md5 struct {
+	Secret string
 }
 
 type Application struct {

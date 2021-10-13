@@ -1,3 +1,9 @@
+/*
+ * @Author: lihuan
+ * @Date: 2021-10-11 08:43:38
+ * @LastEditTime: 2021-10-13 09:36:15
+ * @Email: 17719495105@163.com
+ */
 package logic
 
 import (
@@ -6,7 +12,6 @@ import (
 	"store/rpc-user/apiuser"
 	"store/rpc-user/internal/dao"
 	"store/rpc-user/internal/svc"
-	"store/utils"
 
 	"github.com/tal-tech/go-zero/core/logx"
 )
@@ -31,7 +36,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 func (l *RegisterLogic) Register(in *apiuser.RegisterReq) (*apiuser.NullRes, error) {
 	request := models.User{
 		Phone:    in.Phone,
-		Password: utils.EncodeMd5([]byte(in.Password), []byte(l.svcCtx.Config.UserAuth.Md5)),
+		Password: in.Password,
 	}
 
 	_, err := l.userDao.Create(&request)

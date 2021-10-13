@@ -1,3 +1,9 @@
+/*
+ * @Author: lihuan
+ * @Date: 2021-10-11 08:43:38
+ * @LastEditTime: 2021-10-13 09:47:02
+ * @Email: 17719495105@163.com
+ */
 package models
 
 type User struct {
@@ -16,5 +22,5 @@ type User struct {
 }
 
 func (m User) TableName() string {
-	return "user"
+	return "hc_user"
 }

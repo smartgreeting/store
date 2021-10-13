@@ -6,7 +6,7 @@ Etcd:
   Key: apiuser.rpc
 
 Mysql:
-  Dns: root:root@tcp(127.0.0.1:3306)/store?charset=utf8mb4&parseTime=True&loc=Local
+  Dns: root:lihuan@tcp(127.0.0.1:3306)/store?charset=utf8mb4&parseTime=True&loc=Local
 
 Redis:
   Host: 127.0.0.1
