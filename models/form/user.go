@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-13 13:29:45
+ * @LastEditTime: 2021-10-14 11:43:01
  * @Email: 17719495105@163.com
  */
 package form
@@ -17,7 +17,7 @@ type UserInfo struct {
 	Username  string `json:"username"`
 	Password  string `json:"password"`
 	Avatar    string `json:"avatar"`
-	Sex       int    `json:"sex"`
+	Sex       int32  `json:"sex"`
 	Phone     string `json:"phone"`
 	Email     string `json:"email"`
 	Address   string `json:"address"`

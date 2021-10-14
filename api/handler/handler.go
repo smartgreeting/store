@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-13 13:47:54
+ * @LastEditTime: 2021-10-14 14:02:26
  * @Email: 17719495105@163.com
  */
 package handler
@@ -19,6 +19,8 @@ func SetupRouter() *gin.Engine {
 
 	// 注册参数校验器
 	utils.Validator()
+
+	r.Use(middleware.Recover)
 
 	// 实例化服务
 	userService := service.NewUserService()

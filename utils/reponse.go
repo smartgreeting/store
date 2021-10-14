@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-13 14:01:06
+ * @LastEditTime: 2021-10-14 17:05:42
  * @Email: 17719495105@163.com
  */
 package utils
@@ -36,11 +36,11 @@ var resMap = map[int]string{
 	GENERATE_TOKEN_ERROR: "生成token失败",
 }
 
-func Response(ctx *gin.Context, httpCode, code int, msg string, data interface{}) {
+func Response(ctx *gin.Context, httpCode, code int, data interface{}) {
 
 	ctx.JSON(httpCode, gin.H{
 		"code": code,
-		"msg":  msg,
+		"msg":  GetMsg(code),
 		"data": data,
 	})
 

@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-13 09:36:15
+ * @LastEditTime: 2021-10-14 11:28:32
  * @Email: 17719495105@163.com
  */
 package logic
@@ -33,7 +33,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 //   注册接口
-func (l *RegisterLogic) Register(in *apiuser.RegisterReq) (*apiuser.NullRes, error) {
+func (l *RegisterLogic) Register(in *apiuser.RegisterReq) (*apiuser.UserReply, error) {
 	request := models.User{
 		Phone:    in.Phone,
 		Password: in.Password,
@@ -44,5 +44,5 @@ func (l *RegisterLogic) Register(in *apiuser.RegisterReq) (*apiuser.NullRes, err
 		return nil, err
 	}
 
-	return &apiuser.NullRes{}, nil
+	return &apiuser.UserReply{}, nil
 }

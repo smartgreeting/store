@@ -4,11 +4,6 @@ package apiuser;
 
 option go_package = "apiuser";
 
-message response {
-  //  状态码
-  int32 code = 1;
-  string message = 2;
-}
 
 message registerReq {
   string phone = 1;
@@ -24,20 +19,11 @@ message loginReq {
   string code = 3;
 }
 
-message loginRes {
-  uint64 id = 1;
-  string token = 2;
-  response response = 3;
-}
 
 message getUserReq {
   uint64 id = 1;
 }
 
-message getUserRes {
-  response response = 1;
-  user user = 2;
-}
 
 message user {
   uint64 id = 1;
@@ -55,20 +41,29 @@ message updateUserReq {
   user user = 1;
 }
 
-message nullRes {}
 
-message updateUserRes {
-  response response = 1;
-  user user = 2;
+
+message UserReply {
+  uint64 id = 1;
+  string username = 2;
+  string password = 3;
+  string avatar = 4;
+  // 0: 男，1:女
+  int32 sex = 5;
+  string phone = 6;
+  string email = 7;
+  string address = 8;
+  string hobby = 9;
+ 
 }
 
 service ApiUser {
   //  注册接口
-  rpc register(registerReq) returns(nullRes);
+  rpc register(registerReq) returns(UserReply);
   //  登录接口
-  rpc login(loginReq) returns(loginRes);
+  rpc login(loginReq) returns(UserReply);
   //  获取用户信息
-  rpc getUser(getUserReq) returns(getUserRes);
+  rpc getUser(getUserReq) returns(UserReply);
   //  更新用户信息
-  rpc updateUser(updateUserReq) returns(updateUserRes);
+  rpc updateUser(updateUserReq) returns(UserReply);
 }

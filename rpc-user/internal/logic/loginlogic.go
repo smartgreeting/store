@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-13 14:12:54
+ * @LastEditTime: 2021-10-14 17:53:25
  * @Email: 17719495105@163.com
  */
 package logic
@@ -10,12 +10,12 @@ import (
 	"context"
 	"errors"
 
-	"store/models"
 	"store/rpc-user/apiuser"
 	"store/rpc-user/internal/dao"
 	"store/rpc-user/internal/svc"
 
 	"github.com/tal-tech/go-zero/core/logx"
+	"gorm.io/gorm"
 )
 
 type LoginLogic struct {
@@ -35,35 +35,22 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 //   登录接口
-func (l *LoginLogic) Login(in *apiuser.LoginReq) (*apiuser.LoginRes, error) {
-	// 短信验证码登录
-	// if len(in.Password) == 0 {
-	// 	//	:todo
-	// }
+func (l *LoginLogic) Login(in *apiuser.LoginReq) (*apiuser.UserReply, error) {
 
-	// 账号密码登录
-	user, err := l.checkPassword(in.Password, in.Phone)
-	if err != nil {
+	user, err := l.userDao.FindByPhone(in.Phone)
+
+	switch err {
+	case nil:
+		if user.Password != in.Password {
+			return nil, errors.New("密码错误")
+		}
+		return &apiuser.UserReply{
+			Id: user.ID,
+		}, nil
+	case gorm.ErrRecordNotFound:
+		return nil, errors.New("未匹配到记录")
+	default:
 		return nil, err
 	}
-
-	if err != nil {
-		return nil, errors.New("密码错误")
-	}
-
-	return &apiuser.LoginRes{
-		Id: user.ID,
-	}, nil
-}
-
-func (l *LoginLogic) checkPassword(reqPassword, phone string) (*models.User, error) {
-	user, err := l.userDao.FindByPhone(phone)
-	if err != nil {
-		return nil, err
-	}
-	if user.Password == reqPassword {
-		return user, nil
-	}
-	return nil, errors.New("")
 
 }

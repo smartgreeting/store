@@ -22,25 +22,25 @@ func NewApiUserServer(svcCtx *svc.ServiceContext) *ApiUserServer {
 }
 
 //   注册接口
-func (s *ApiUserServer) Register(ctx context.Context, in *apiuser.RegisterReq) (*apiuser.NullRes, error) {
+func (s *ApiUserServer) Register(ctx context.Context, in *apiuser.RegisterReq) (*apiuser.UserReply, error) {
 	l := logic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
 
 //   登录接口
-func (s *ApiUserServer) Login(ctx context.Context, in *apiuser.LoginReq) (*apiuser.LoginRes, error) {
+func (s *ApiUserServer) Login(ctx context.Context, in *apiuser.LoginReq) (*apiuser.UserReply, error) {
 	l := logic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
 }
 
 //   获取用户信息
-func (s *ApiUserServer) GetUser(ctx context.Context, in *apiuser.GetUserReq) (*apiuser.GetUserRes, error) {
+func (s *ApiUserServer) GetUser(ctx context.Context, in *apiuser.GetUserReq) (*apiuser.UserReply, error) {
 	l := logic.NewGetUserLogic(ctx, s.svcCtx)
 	return l.GetUser(in)
 }
 
 //   更新用户信息
-func (s *ApiUserServer) UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*apiuser.UpdateUserRes, error) {
+func (s *ApiUserServer) UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*apiuser.UserReply, error) {
 	l := logic.NewUpdateUserLogic(ctx, s.svcCtx)
 	return l.UpdateUser(in)
 }

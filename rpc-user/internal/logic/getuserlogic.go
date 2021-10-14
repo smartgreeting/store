@@ -1,3 +1,9 @@
+/*
+ * @Author: lihuan
+ * @Date: 2021-10-11 08:43:38
+ * @LastEditTime: 2021-10-14 11:29:35
+ * @Email: 17719495105@163.com
+ */
 package logic
 
 import (
@@ -23,8 +29,8 @@ func NewGetUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLo
 }
 
 //   获取用户信息
-func (l *GetUserLogic) GetUser(in *apiuser.GetUserReq) (*apiuser.GetUserRes, error) {
+func (l *GetUserLogic) GetUser(in *apiuser.GetUserReq) (*apiuser.UserReply, error) {
 	// todo: add your logic here and delete this line
 
-	return &apiuser.GetUserRes{}, nil
+	return &apiuser.UserReply{}, nil
 }

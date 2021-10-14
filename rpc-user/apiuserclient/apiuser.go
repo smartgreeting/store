@@ -12,26 +12,22 @@ import (
 )
 
 type (
+	UserReply     = apiuser.UserReply
+	RegisterReq   = apiuser.RegisterReq
+	LoginReq      = apiuser.LoginReq
 	GetUserReq    = apiuser.GetUserReq
-	GetUserRes    = apiuser.GetUserRes
 	User          = apiuser.User
 	UpdateUserReq = apiuser.UpdateUserReq
-	Response      = apiuser.Response
-	RegisterReq   = apiuser.RegisterReq
-	NullRes       = apiuser.NullRes
-	UpdateUserRes = apiuser.UpdateUserRes
-	LoginReq      = apiuser.LoginReq
-	LoginRes      = apiuser.LoginRes
 
 	ApiUser interface {
 		//   注册接口
-		Register(ctx context.Context, in *RegisterReq) (*NullRes, error)
+		Register(ctx context.Context, in *RegisterReq) (*UserReply, error)
 		//   登录接口
-		Login(ctx context.Context, in *LoginReq) (*LoginRes, error)
+		Login(ctx context.Context, in *LoginReq) (*UserReply, error)
 		//   获取用户信息
-		GetUser(ctx context.Context, in *GetUserReq) (*GetUserRes, error)
+		GetUser(ctx context.Context, in *GetUserReq) (*UserReply, error)
 		//   更新用户信息
-		UpdateUser(ctx context.Context, in *UpdateUserReq) (*UpdateUserRes, error)
+		UpdateUser(ctx context.Context, in *UpdateUserReq) (*UserReply, error)
 	}
 
 	defaultApiUser struct {
@@ -46,25 +42,25 @@ func NewApiUser(cli zrpc.Client) ApiUser {
 }
 
 //   注册接口
-func (m *defaultApiUser) Register(ctx context.Context, in *RegisterReq) (*NullRes, error) {
+func (m *defaultApiUser) Register(ctx context.Context, in *RegisterReq) (*UserReply, error) {
 	client := apiuser.NewApiUserClient(m.cli.Conn())
 	return client.Register(ctx, in)
 }
 
 //   登录接口
-func (m *defaultApiUser) Login(ctx context.Context, in *LoginReq) (*LoginRes, error) {
+func (m *defaultApiUser) Login(ctx context.Context, in *LoginReq) (*UserReply, error) {
 	client := apiuser.NewApiUserClient(m.cli.Conn())
 	return client.Login(ctx, in)
 }
 
 //   获取用户信息
-func (m *defaultApiUser) GetUser(ctx context.Context, in *GetUserReq) (*GetUserRes, error) {
+func (m *defaultApiUser) GetUser(ctx context.Context, in *GetUserReq) (*UserReply, error) {
 	client := apiuser.NewApiUserClient(m.cli.Conn())
 	return client.GetUser(ctx, in)
 }
 
 //   更新用户信息
-func (m *defaultApiUser) UpdateUser(ctx context.Context, in *UpdateUserReq) (*UpdateUserRes, error) {
+func (m *defaultApiUser) UpdateUser(ctx context.Context, in *UpdateUserReq) (*UserReply, error) {
 	client := apiuser.NewApiUserClient(m.cli.Conn())
 	return client.UpdateUser(ctx, in)
 }
