@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 11:15:50
- * @LastEditTime: 2021-10-13 09:35:29
+ * @LastEditTime: 2021-10-25 15:22:32
  * @Email: 17719495105@163.com
  */
 package utils
@@ -21,7 +21,7 @@ type Conf struct {
 
 type Token struct {
 	Secret     string
-	ExpireTime int
+	ExpireTime int `yaml:"expire_time"`
 }
 type Md5 struct {
 	Secret string

@@ -12,12 +12,13 @@ import (
 )
 
 type (
+	User          = apiuser.User
+	UpdateUserReq = apiuser.UpdateUserReq
 	UserReply     = apiuser.UserReply
 	RegisterReq   = apiuser.RegisterReq
 	LoginReq      = apiuser.LoginReq
+	GetCaptuhaReq = apiuser.GetCaptuhaReq
 	GetUserReq    = apiuser.GetUserReq
-	User          = apiuser.User
-	UpdateUserReq = apiuser.UpdateUserReq
 
 	ApiUser interface {
 		//   注册接口
@@ -28,6 +29,8 @@ type (
 		GetUser(ctx context.Context, in *GetUserReq) (*UserReply, error)
 		//   更新用户信息
 		UpdateUser(ctx context.Context, in *UpdateUserReq) (*UserReply, error)
+		//  获取验证码
+		GetCaptuha(ctx context.Context, in *GetCaptuhaReq) (*UserReply, error)
 	}
 
 	defaultApiUser struct {
@@ -63,4 +66,10 @@ func (m *defaultApiUser) GetUser(ctx context.Context, in *GetUserReq) (*UserRepl
 func (m *defaultApiUser) UpdateUser(ctx context.Context, in *UpdateUserReq) (*UserReply, error) {
 	client := apiuser.NewApiUserClient(m.cli.Conn())
 	return client.UpdateUser(ctx, in)
+}
+
+//  获取验证码
+func (m *defaultApiUser) GetCaptuha(ctx context.Context, in *GetCaptuhaReq) (*UserReply, error) {
+	client := apiuser.NewApiUserClient(m.cli.Conn())
+	return client.GetCaptuha(ctx, in)
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-14 17:53:25
+ * @LastEditTime: 2021-10-25 11:41:44
  * @Email: 17719495105@163.com
  */
 package logic
@@ -9,6 +9,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"store/rpc-user/apiuser"
 	"store/rpc-user/internal/dao"
@@ -36,7 +37,11 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 //   登录接口
 func (l *LoginLogic) Login(in *apiuser.LoginReq) (*apiuser.UserReply, error) {
-
+	key := fmt.Sprintf("GetCaptuha%s", in.Phone)
+	code, _ := l.svcCtx.RedCli.Get(key).Result()
+	if code != in.Code {
+		return nil, errors.New("验证不正确")
+	}
 	user, err := l.userDao.FindByPhone(in.Phone)
 
 	switch err {

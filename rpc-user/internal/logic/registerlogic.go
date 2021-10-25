@@ -1,13 +1,15 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-14 11:28:32
+ * @LastEditTime: 2021-10-25 13:48:08
  * @Email: 17719495105@163.com
  */
 package logic
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"store/models"
 	"store/rpc-user/apiuser"
 	"store/rpc-user/internal/dao"
@@ -34,6 +36,13 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 //   注册接口
 func (l *RegisterLogic) Register(in *apiuser.RegisterReq) (*apiuser.UserReply, error) {
+
+	key := fmt.Sprintf("GetCaptuha%s", in.Phone)
+	code, _ := l.svcCtx.RedCli.Get(key).Result()
+	if code != in.Code {
+		return nil, errors.New("验证不正确")
+	}
+
 	request := models.User{
 		Phone:    in.Phone,
 		Password: in.Password,

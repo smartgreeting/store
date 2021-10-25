@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-14 17:28:52
+ * @LastEditTime: 2021-10-25 15:55:00
  * @Email: 17719495105@163.com
  */
 package dao
@@ -36,4 +36,18 @@ func (d UserDao) FindByPhone(phone string) (*models.User, error) {
 	err := d.db.Where("phone = ?", phone).First(&user).Error
 
 	return &user, err
+}
+
+func (d UserDao) FindUserInfoById(id uint64) (*models.User, error) {
+	var userInfo models.User
+	err := d.db.Where("id = ?", id).First(&userInfo).Error
+	return &userInfo, err
+}
+
+func (d UserDao) UpdateUser(user *models.User) (*models.User, error) {
+
+	var userInfo models.User
+	err := d.db.Model(&userInfo).Where("id = ?", user.ID).Updates(user).Error
+	return &userInfo, err
+
 }

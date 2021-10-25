@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-14 17:45:07
+ * @LastEditTime: 2021-10-25 16:26:44
  * @Email: 17719495105@163.com
  */
 package service
@@ -9,14 +9,16 @@ package service
 import (
 	"fmt"
 	"net/http"
+	"regexp"
 	"store/api/rpc"
 	"store/models/form"
 	"store/models/in"
+	"store/rpc-user/apiuser"
 	"store/utils"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/go-playground/validator/v10"
 )
 
 type UserService struct {
@@ -34,8 +36,9 @@ func (s *UserService) Register(ctx *gin.Context) {
 	err := ctx.ShouldBindWith(&req, binding.JSON)
 	// 参数校验
 	if err != nil {
-		errs := err.(validator.ValidationErrors)
-		panic(utils.ErrorTranslate(errs))
+
+		panic(err)
+
 	}
 
 	// 注册
@@ -59,8 +62,7 @@ func (u *UserService) Login(ctx *gin.Context) {
 	err := ctx.ShouldBindWith(&req, binding.JSON)
 	// 参数校验
 	if err != nil {
-		errs := err.(validator.ValidationErrors)
-		panic(utils.ErrorTranslate(errs))
+		panic(err)
 	}
 	// 登录
 	user, err := rpc.NewUserRpc().Login(ctx, &in.UserLoginReq{
@@ -70,8 +72,9 @@ func (u *UserService) Login(ctx *gin.Context) {
 	})
 	// 登录失败
 	if err != nil {
-		fmt.Println(err, 111)
-		panic(utils.LOGIN_ERROR)
+
+		panic(err)
+		// panic(utils.LOGIN_ERROR)
 
 	}
 	token, err := utils.GenerateToken(int(user.ID), req.Phone, utils.EncodeMd5(req.Password, []byte(utils.Cfg.Md5.Secret)), []byte(utils.Cfg.Token.Secret), utils.Cfg.Token.ExpireTime)
@@ -86,4 +89,63 @@ func (u *UserService) Login(ctx *gin.Context) {
 		"token": token,
 	})
 
+}
+
+func (u *UserService) GetCaptuha(ctx *gin.Context) {
+	phone := ctx.Query("phone")
+	reg := `^1([38][0-9]|14[579]|5[^4]|16[6]|7[1-35-8]|9[189])\d{8}$`
+	rgx := regexp.MustCompile(reg)
+	if !rgx.MatchString(phone) {
+		panic(utils.ErrorPhoneNotExit)
+	}
+	code, err := rpc.NewUserRpc().GetCaptuha(ctx, &apiuser.GetCaptuhaReq{
+		Phone: phone,
+	})
+	if err != nil {
+		panic(err)
+	}
+	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
+		"code": code,
+	})
+}
+
+func (u *UserService) GetUserInfo(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Query("id"))
+
+	res, err := rpc.NewUserRpc().GetUserInfo(ctx, &apiuser.GetUserReq{Id: uint64(id)})
+	if err != nil {
+		panic(err)
+	}
+	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
+		"userInfo": res,
+	})
+}
+func (u *UserService) UpdateUser(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Param("id"))
+	var req form.UserInfo
+
+	err := ctx.ShouldBindWith(&req, binding.JSON)
+	// 参数校验
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := rpc.NewUserRpc().UpdateUser(ctx, &apiuser.UpdateUserReq{
+		User: &apiuser.User{
+			Id:       uint64(id),
+			Username: req.Username,
+			Avatar:   req.Avatar,
+			Sex:      req.Sex,
+			Phone:    req.Phone,
+			Email:    req.Email,
+			Address:  req.Address,
+			Hobby:    req.Hobby,
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
+		"userInfo": res,
+	})
 }

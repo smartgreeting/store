@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-14 17:05:42
+ * @LastEditTime: 2021-10-25 11:31:13
  * @Email: 17719495105@163.com
  */
 package utils
@@ -21,6 +21,7 @@ const (
 	PARAMS_PARSE_ERROR
 	LOGIN_ERROR
 	GENERATE_TOKEN_ERROR
+	ErrorPhoneNotExit
 )
 
 var resMap = map[int]string{
@@ -34,6 +35,7 @@ var resMap = map[int]string{
 	PARAMS_PARSE_ERROR:   "请求参数解析错误",
 	LOGIN_ERROR:          "登录失败",
 	GENERATE_TOKEN_ERROR: "生成token失败",
+	ErrorPhoneNotExit:    "手机号码不正确！",
 }
 
 func Response(ctx *gin.Context, httpCode, code int, data interface{}) {

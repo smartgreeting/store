@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 16:10:05
- * @LastEditTime: 2021-10-14 17:07:20
+ * @LastEditTime: 2021-10-25 15:30:20
  * @Email: 17719495105@163.com
  */
 package middleware
@@ -42,7 +42,7 @@ func JWT() gin.HandlerFunc {
 		}
 
 		if code != utils.SUCCESS {
-			utils.Response(ctx, http.StatusUnauthorized, utils.UNAUTHORIZED_ERROR, nil)
+			utils.Response(ctx, http.StatusUnauthorized, code, nil)
 
 			ctx.Abort()
 			return

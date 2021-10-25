@@ -44,3 +44,9 @@ func (s *ApiUserServer) UpdateUser(ctx context.Context, in *apiuser.UpdateUserRe
 	l := logic.NewUpdateUserLogic(ctx, s.svcCtx)
 	return l.UpdateUser(in)
 }
+
+//  获取验证码
+func (s *ApiUserServer) GetCaptuha(ctx context.Context, in *apiuser.GetCaptuhaReq) (*apiuser.UserReply, error) {
+	l := logic.NewGetCaptuhaLogic(ctx, s.svcCtx)
+	return l.GetCaptuha(in)
+}
