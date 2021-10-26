@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-25 16:26:44
+ * @LastEditTime: 2021-10-26 15:41:04
  * @Email: 17719495105@163.com
  */
 package service
@@ -12,7 +12,6 @@ import (
 	"regexp"
 	"store/api/rpc"
 	"store/models/form"
-	"store/models/in"
 	"store/rpc-user/apiuser"
 	"store/utils"
 	"strconv"
@@ -42,7 +41,7 @@ func (s *UserService) Register(ctx *gin.Context) {
 	}
 
 	// 注册
-	_, err = rpc.NewUserRpc().Register(ctx, &in.UserRegisterReq{
+	_, err = rpc.NewUserRpc().Register(ctx, &apiuser.RegisterReq{
 		Phone:    req.Phone,
 		Password: utils.EncodeMd5(req.Password, []byte(utils.Cfg.Md5.Secret)),
 		Code:     req.Code,
@@ -65,7 +64,7 @@ func (u *UserService) Login(ctx *gin.Context) {
 		panic(err)
 	}
 	// 登录
-	user, err := rpc.NewUserRpc().Login(ctx, &in.UserLoginReq{
+	user, err := rpc.NewUserRpc().Login(ctx, &apiuser.LoginReq{
 		Phone:    req.Phone,
 		Password: utils.EncodeMd5(req.Password, []byte(utils.Cfg.Md5.Secret)),
 		Code:     req.Code,
@@ -77,7 +76,7 @@ func (u *UserService) Login(ctx *gin.Context) {
 		// panic(utils.LOGIN_ERROR)
 
 	}
-	token, err := utils.GenerateToken(int(user.ID), req.Phone, utils.EncodeMd5(req.Password, []byte(utils.Cfg.Md5.Secret)), []byte(utils.Cfg.Token.Secret), utils.Cfg.Token.ExpireTime)
+	token, err := utils.GenerateToken(int(user.Id), req.Phone, utils.EncodeMd5(req.Password, []byte(utils.Cfg.Md5.Secret)), []byte(utils.Cfg.Token.Secret), utils.Cfg.Token.ExpireTime)
 	if err != nil {
 		utils.Response(ctx, http.StatusInternalServerError, utils.GENERATE_TOKEN_ERROR, nil)
 		fmt.Println(err)
@@ -85,7 +84,7 @@ func (u *UserService) Login(ctx *gin.Context) {
 	}
 
 	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
-		"id":    user.ID,
+		"id":    user.Id,
 		"token": token,
 	})
 
@@ -98,14 +97,14 @@ func (u *UserService) GetCaptuha(ctx *gin.Context) {
 	if !rgx.MatchString(phone) {
 		panic(utils.ErrorPhoneNotExit)
 	}
-	code, err := rpc.NewUserRpc().GetCaptuha(ctx, &apiuser.GetCaptuhaReq{
+	res, err := rpc.NewUserRpc().GetCaptuha(ctx, &apiuser.GetCaptuhaReq{
 		Phone: phone,
 	})
 	if err != nil {
 		panic(err)
 	}
 	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
-		"code": code,
+		"code": res.Code,
 	})
 }
 

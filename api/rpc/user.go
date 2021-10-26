@@ -1,15 +1,13 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-25 16:00:58
+ * @LastEditTime: 2021-10-26 15:38:37
  * @Email: 17719495105@163.com
  */
 package rpc
 
 import (
 	"context"
-	"store/models/in"
-	"store/models/reply"
 	"store/rpc-user/apiuser"
 	"store/rpc-user/apiuserclient"
 
@@ -17,11 +15,11 @@ import (
 )
 
 type UserRpcInterface interface {
-	Register(ctx context.Context, in *in.UserRegisterReq) (*reply.UserReply, error)
-	Login(ctx context.Context, in *in.UserLoginReq) (*reply.UserReply, error)
-	GetCaptuha(ctx context.Context, in *apiuser.GetCaptuhaReq) (string, error)
-	GetUserInfo(ctx context.Context, in *apiuser.GetUserReq) (*reply.UserReply, error)
-	UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*reply.UserReply, error)
+	Register(ctx context.Context, in *apiuser.RegisterReq) (*apiuser.UserReply, error)
+	Login(ctx context.Context, in *apiuser.LoginReq) (*apiuser.UserReply, error)
+	GetCaptuha(ctx context.Context, in *apiuser.GetCaptuhaReq) (*apiuser.UserReply, error)
+	GetUserInfo(ctx context.Context, in *apiuser.GetUserReq) (*apiuser.UserReply, error)
+	UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*apiuser.UserReply, error)
 }
 
 type userRpc struct {
@@ -39,7 +37,7 @@ func NewUserRpc() UserRpcInterface {
 	return &userRpc{}
 }
 
-func (r *userRpc) Register(ctx context.Context, in *in.UserRegisterReq) (*reply.UserReply, error) {
+func (r *userRpc) Register(ctx context.Context, in *apiuser.RegisterReq) (*apiuser.UserReply, error) {
 
 	_, err := apiuserRpc.Register(ctx, &apiuserclient.RegisterReq{
 		Phone:    in.Phone,
@@ -50,10 +48,10 @@ func (r *userRpc) Register(ctx context.Context, in *in.UserRegisterReq) (*reply.
 		return nil, err
 	}
 
-	return &reply.UserReply{}, nil
+	return &apiuser.UserReply{}, nil
 }
 
-func (r *userRpc) Login(ctx context.Context, in *in.UserLoginReq) (*reply.UserReply, error) {
+func (r *userRpc) Login(ctx context.Context, in *apiuser.LoginReq) (*apiuser.UserReply, error) {
 
 	user, err := apiuserRpc.Login(ctx, &apiuserclient.LoginReq{
 		Phone:    in.Phone,
@@ -65,31 +63,33 @@ func (r *userRpc) Login(ctx context.Context, in *in.UserLoginReq) (*reply.UserRe
 		return nil, err
 	}
 
-	return &reply.UserReply{
-		ID: user.Id,
+	return &apiuser.UserReply{
+		Id: user.Id,
 	}, nil
 
 }
 
-func (r *userRpc) GetCaptuha(ctx context.Context, in *apiuser.GetCaptuhaReq) (string, error) {
+func (r *userRpc) GetCaptuha(ctx context.Context, in *apiuser.GetCaptuhaReq) (*apiuser.UserReply, error) {
 	res, err := apiuserRpc.GetCaptuha(ctx, &apiuser.GetCaptuhaReq{
 		Phone: in.Phone,
 	})
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return res.Code, nil
+	return &apiuser.UserReply{
+		Code: res.Code,
+	}, nil
 }
 
-func (r *userRpc) GetUserInfo(ctx context.Context, in *apiuser.GetUserReq) (*reply.UserReply, error) {
+func (r *userRpc) GetUserInfo(ctx context.Context, in *apiuser.GetUserReq) (*apiuser.UserReply, error) {
 	res, err := apiuserRpc.GetUser(ctx, &apiuser.GetUserReq{
 		Id: in.Id,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &reply.UserReply{
-		ID:       res.Id,
+	return &apiuser.UserReply{
+		Id:       res.Id,
 		Username: res.Username,
 		Avatar:   res.Avatar,
 		Sex:      int32(res.Sex),
@@ -99,15 +99,16 @@ func (r *userRpc) GetUserInfo(ctx context.Context, in *apiuser.GetUserReq) (*rep
 		Hobby:    res.Hobby,
 	}, nil
 }
-func (r *userRpc) UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*reply.UserReply, error) {
+func (r *userRpc) UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*apiuser.UserReply, error) {
 	res, err := apiuserRpc.UpdateUser(ctx, &apiuser.UpdateUserReq{
 		User: in.User,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &reply.UserReply{
-		ID:       res.Id,
+
+	return &apiuser.UserReply{
+		Id:       res.Id,
 		Username: res.Username,
 		Avatar:   res.Avatar,
 		Sex:      int32(res.Sex),

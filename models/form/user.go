@@ -1,7 +1,7 @@
 /*
  * @Author: lihuan
  * @Date: 2021-10-11 08:43:38
- * @LastEditTime: 2021-10-14 11:43:01
+ * @LastEditTime: 2021-10-25 18:00:30
  * @Email: 17719495105@163.com
  */
 package form
@@ -22,7 +22,7 @@ type UserInfo struct {
 	Email     string `json:"email"`
 	Address   string `json:"address"`
 	Hobby     string `json:"hobby"`
-	Deleted   int    `json:"delete"`
-	CreatedAt int    `json:"crearedAt"`
-	UpdatedAt int    `json:"updateat"`
+	Deleted   int    `json:"deleted"`
+	CreatedAt int    `json:"createdAt"`
+	UpdatedAt int    `json:"updatedAt"`
 }
