@@ -48,7 +48,9 @@ func (s *UserService) Register(ctx *gin.Context) {
 	})
 	// 注册失败
 	if err != nil {
-		panic(utils.UserCreateErr)
+		// panic(utils.UserCreateErr)
+		panic(err)
+		
 	}
 
 	utils.Response(ctx, http.StatusOK, utils.SUCCESS, nil)
