@@ -88,6 +88,7 @@ func (r *userRpc) GetUserInfo(ctx context.Context, in *apiuser.GetUserReq) (*api
 	if err != nil {
 		return nil, err
 	}
+
 	return &apiuser.UserReply{
 		Id:       res.Id,
 		Username: res.Username,
@@ -106,7 +107,6 @@ func (r *userRpc) UpdateUser(ctx context.Context, in *apiuser.UpdateUserReq) (*a
 	if err != nil {
 		return nil, err
 	}
-
 	return &apiuser.UserReply{
 		Id:       res.Id,
 		Username: res.Username,

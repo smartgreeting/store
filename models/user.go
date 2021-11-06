@@ -6,10 +6,12 @@
  */
 package models
 
+import "store/rpc-user/apiuser"
+
 type User struct {
 	ID        uint64
 	Username  string
-	Password  string
+	Password  string `json:"-"`
 	Avatar    string
 	Sex       int
 	Phone     string
@@ -21,6 +23,21 @@ type User struct {
 	UpdatedAt int
 }
 
-func (m User) TableName() string {
+func RpcToUser(in *apiuser.UserReply) User {
+	return User{
+		ID : in.Id,
+		Username : in.Username,
+		Avatar : in.Avatar,
+		Sex : int(in.Sex),
+		Phone : in.Phone,
+		Email : in.Email,
+		Address : in.Address,
+		Hobby : in.Hobby,
+	}
+	
+	
+}
+
+func (u User) TableName() string {
 	return "hc_user"
 }

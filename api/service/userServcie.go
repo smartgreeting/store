@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"regexp"
 	"store/api/rpc"
+	"store/models"
 	"store/models/form"
 	"store/rpc-user/apiuser"
 	"store/utils"
@@ -117,8 +118,10 @@ func (u *UserService) GetUserInfo(ctx *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
+	
 	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
-		"userInfo": res,
+		
+		"userInfo": models.RpcToUser(res),
 	})
 }
 func (u *UserService) UpdateUser(ctx *gin.Context) {
@@ -147,6 +150,6 @@ func (u *UserService) UpdateUser(ctx *gin.Context) {
 		panic(err)
 	}
 	utils.Response(ctx, http.StatusOK, utils.SUCCESS, gin.H{
-		"userInfo": res,
+		"userInfo": models.RpcToUser(res),
 	})
 }

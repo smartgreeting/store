@@ -39,7 +39,7 @@ var resMap = map[int]string{
 }
 
 func Response(ctx *gin.Context, httpCode, code int, data interface{}) {
-
+	
 	ctx.JSON(httpCode, gin.H{
 		"code": code,
 		"msg":  GetMsg(code),
